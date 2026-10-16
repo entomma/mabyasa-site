@@ -36,9 +36,9 @@
   header { position: sticky; top: 0; z-index: 10; background: rgba(10,16,12,.88); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
   .nav { display: flex; align-items: center; justify-content: space-between; height: 62px; }
   .brand { font-size: 26px; color: var(--gold); text-decoration: none; letter-spacing: .5px; }
-  .nav-links { display: flex; align-items: center; gap: 22px; }
-  .nav-links a { color: var(--muted); text-decoration: none; font-size: 15px; }
-  .nav-links a:hover { color: var(--text); }
+  .nav-links { display: flex; align-items: center; gap: 12px; }
+  .nav-links a:not(.btn) { color: var(--muted); text-decoration: none; font-size: 15px; margin-right: 10px; }
+  .nav-links a:not(.btn):hover { color: var(--text); }
   @media (max-width: 640px) { .nav-links .hide-sm { display: none; } }
 
   /* buttons */
@@ -60,6 +60,9 @@
   .hero h1 { font-size: clamp(44px, 9vw, 92px); color: var(--gold); text-shadow: 0 0 28px rgba(227,176,75,.25); }
   .hero p.lead { max-width: 620px; margin: 18px auto 30px; color: var(--muted); font-size: 19px; }
   .hero .cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .hero .more { margin-top: 18px; font-size: 15px; }
+  .hero .more a { color: var(--muted); }
+  .hero .more a:hover { color: var(--text); }
 
   section { padding: 56px 0; }
   .sec-title { font-size: 34px; margin-bottom: 8px; }
@@ -77,13 +80,14 @@
   .example .meaning { font-size: 20px; }
   .example small { color: var(--muted); display: block; }
 
-  /* download panel */
-  .one { max-width: 560px; margin: 0 auto; }
-  .panel { background: var(--panel); border: 1px solid var(--gold-dim); border-radius: 16px; padding: 26px; }
+  /* download + evaluate panels */
+  .one { max-width: 560px; margin: 0 auto; display: grid; gap: 20px; }
+  .panel { background: var(--panel); border: 1px solid var(--gold-dim); border-radius: 16px; padding: 26px; scroll-margin-top: 80px; }
   .panel h2 { font-size: 28px; margin-bottom: 6px; }
   .panel p { color: var(--muted); margin: 0 0 18px; }
   .dl-list { display: grid; gap: 10px; }
   .dl-list .btn { justify-content: space-between; }
+  .panel .btn.full { width: 100%; justify-content: space-between; }
   .note { font-size: 13px; color: var(--muted); margin-top: 14px; }
   .soon { margin-top: 16px; padding: 12px 14px; border: 1px dashed var(--line); border-radius: 10px; color: var(--muted); font-size: 14px; }
 
@@ -99,6 +103,7 @@
     <nav class="nav-links">
       <a class="hide-sm" href="#about">About</a>
       <a class="btn small ghost" href="#download">Download</a>
+      <a class="btn small ghost" href="#evaluate">Evaluate</a>
     </nav>
   </div>
 </header>
@@ -111,8 +116,9 @@
     <p class="lead">A turn-based RPG where every word you learn becomes a card you fight with. Explore the world of Mabyasa with the help of Kapampangan language.</p>
     <div class="cta">
       <a class="btn" href="#download">Download the game</a>
-      <a class="btn ghost" href="#about">How it works</a>
+      <a class="btn evaluate-link" href="" target="_blank" rel="noopener">Evaluate the game</a>
     </div>
+    <div class="more"><a href="#about">How it works ↓</a></div>
   </div>
 
   <!-- ABOUT -->
@@ -135,7 +141,7 @@
     </div>
   </section>
 
-  <!-- DOWNLOAD -->
+  <!-- DOWNLOAD + EVALUATE -->
   <section>
     <div class="wrap one">
       <div class="panel" id="download">
@@ -146,6 +152,11 @@
         <div class="note" id="versionNote"></div>
       </div>
 
+      <div class="panel" id="evaluate">
+        <h2>Evaluate</h2>
+        <p>Played the game? Tell us what worked and what didn't. It takes a few minutes and directly shapes the next version.</p>
+        <a class="btn full evaluate-link" href="" target="_blank" rel="noopener"><span>Open the evaluation form</span><span>Google Form</span></a>
+      </div>
     </div>
   </section>
 </main>
@@ -158,8 +169,9 @@
 /* ============ CONFIG: edit these ============ */
 const CONFIG = {
   VERSION: "v0.1",
+  EVALUATE_URL: "https://docs.google.com/forms/d/e/1FAIpQLSdXHl3FbQCZzB_Eq5HPnj5tnpvo-OYw4bottaUpQU_dFVFlTQ/viewform?usp=header",
   DOWNLOADS: [
-    { label: "Download for Windows", url: "https://entomma.itch.io/mabyasa", file: ".zip" },
+    { label: "Download for Windows", url: "https://github.com/entomma/mabyasa-site/releases/download/v0.2-beta/MABYASA.zip", file: ".zip" },
     { label: "Download for macOS",   url: "", file: ".zip" },
     { label: "Download for Linux",   url: "", file: ".zip" }
   ]
@@ -181,6 +193,11 @@ CONFIG.DOWNLOADS.forEach(d => {
   dl.appendChild(a);
 });
 $("versionNote").textContent = "Current version: " + CONFIG.VERSION;
+
+/* evaluation form links (hero button + panel button) */
+document.querySelectorAll(".evaluate-link").forEach(a => { a.href = CONFIG.EVALUATE_URL; });
+
+/* nav "Evaluate" scrolls to the panel; nothing else needed */
 </script>
 </body>
 </html>
